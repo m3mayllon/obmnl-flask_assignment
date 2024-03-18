@@ -10,12 +10,21 @@ transactions = [
 app = Flask(__name__)
 
 
+def calc_total_balance(transactions):
+    '''Calculate the total balance of all transactions.'''
+
+    return sum(t['amount'] for t in transactions)
+
+
 # Read
 @app.route('/')
 def get_transactions():
     '''List all transactions.'''
 
-    return render_template('transactions.html', transactions=transactions)
+    # calculate the total balance
+    total_balance = calc_total_balance(transactions)
+
+    return render_template('transactions.html', transactions=transactions, total_balance=total_balance)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -32,8 +41,11 @@ def search_transactions():
         filtered_transactions = [
             t for t in transactions if t['amount'] >= min and t['amount'] <= max]
 
+        # calculate the total balance
+        total_balance = calc_total_balance(filtered_transactions)
+
         # redirect to the filtered transactions list page
-        return render_template('transactions.html', transactions=filtered_transactions)
+        return render_template('transactions.html', transactions=filtered_transactions, total_balance=total_balance)
 
     # GET
     return render_template('search.html')
