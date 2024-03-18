@@ -18,6 +18,27 @@ def get_transactions():
     return render_template('transactions.html', transactions=transactions)
 
 
+@app.route('/search', methods=['GET', 'POST'])
+def search_transactions():
+    '''Search transactions within a range.'''
+
+    # POST
+    if request.method == 'POST':
+
+        min = float(request.form['min_amount'])
+        max = float(request.form['max_amount'])
+
+        # filter out transactions based on min-max range
+        filtered_transactions = [
+            t for t in transactions if t['amount'] >= min and t['amount'] <= max]
+
+        # redirect to the filtered transactions list page
+        return render_template('transactions.html', transactions=filtered_transactions)
+
+    # GET
+    return render_template('search.html')
+
+
 # Create
 @app.route('/add', methods=['GET', 'POST'])
 def add_transaction():
