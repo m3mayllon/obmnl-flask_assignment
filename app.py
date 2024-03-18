@@ -43,7 +43,7 @@ def add_transaction():
 
 # Update
 @app.route('/edit/<int:transaction_id>', methods=['GET', 'POST'])
-def edit_transaction(transaction_id):
+def edit_transaction(transaction_id: int):
     '''Edit a transaction.'''
 
     # POST
@@ -69,7 +69,7 @@ def edit_transaction(transaction_id):
 
 # Delete
 @app.route('/delete/<int:transaction_id>')
-def delete_transaction(transaction_id):
+def delete_transaction(transaction_id: int):
     '''Delete a transaction.'''
 
     # DELETE: find the matching ID transaction and remove it
